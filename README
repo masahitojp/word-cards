@@ -1,0 +1,11 @@
+jqtouch-1.0-beta-2-r109.zip に同梱されている demo の中に入れてます。
+demos/main/word-cards.html がメイン画面。
+word-cards 以下が、ライブラリとテスト
+word.json　がサンプルのJSONです。
+
+参考にしたサイト
+http://journal.mycom.co.jp/articles/2009/09/08/jqtouch/index.html
+の
+hello_jqtouch_2.html
+あたりです。
+
