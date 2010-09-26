@@ -21,7 +21,7 @@
 	function WData(){
 	    this.data = word_cards.gets();
 	    this.all = this.data.length;
-	    this.index = 1;
+	    this.index = 0;
 	}
        WData.prototype.hasPrev = function(){
             if(this.index <= 0){
@@ -53,19 +53,47 @@
 				$('#a').html(word_cards.gets()[0].ja)
                                 	.addClass('white');
 			});
-                        if(words_data.hasPrev()){
-	                    $('#prev').bind('click',function(ev){
-                               words_data.index--;
-$('#debug').html("here");
-                            }).addClass('white');
-	                }
-                        else
-                        {
-                           $('#prev').removeClass('white')
-                                     .bind('click',function(){
-                                           return false;
-                                      });
-	                }
+
+
+	$('.individual').bind('refresh',function(e,arg){
+             if(arg==='next'){
+               // Todo
+	       if((words_data.all-1) > words_data.index )words_data.index++; 
+	     }else if(arg==='prev'){
+               if(0 < words_data.index) words_data.index--;
+	     }
+            
+             if(words_data.hasPrev()){
+                $('#debug').html("here");
+                $('#prev').addClass('white');
+                //一個前の単語に変更
+	      }
+              else
+              {
+                     $('#prev').removeClass('white');
+	      }
+
+             if(words_data.hasNext()){
+                $('#debug').html("here");
+                $('#prev').addClass('white');
+                //一個前の単語に変更
+	      }
+              else
+              {
+                     $('#prev').removeClass('white');
+	      }              
+            
+	});
+
+        
+	$('#prev').click(function(){
+	    $('.individual').trigger('refresh');
+	});
+	
+
+/* 
+
+*/
 		});
     </script>
     <style type="text/css" media="screen">
