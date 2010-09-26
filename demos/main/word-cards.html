@@ -21,7 +21,7 @@
 	function WData(){
 	    this.data = word_cards.gets();
 	    this.all = this.data.length;
-	    this.index = 0;
+	    this.index = 1;
 	}
        WData.prototype.hasPrev = function(){
             if(this.index <= 0){
@@ -43,14 +43,29 @@
 		$(function(){
 			word_cards.init();
 			word_cards.add({"en":"hoge","ja":"ふが"});
+			word_cards.add({"en":"foo","ja":"ばー"});
 
  			var words_data=new WData();
 
                         $('#cur_pos').html((words_data.index+1)+"/"+words_data.all);
 	                $('#q').html(word_cards.gets()[0].en)
 			$('#a').bind('click',function(ev){
-				$('#a').html(word_cards.gets()[0].ja).addClass('white');
+				$('#a').html(word_cards.gets()[0].ja)
+                                	.addClass('white');
 			});
+                        if(words_data.hasPrev()){
+	                    $('#prev').bind('click',function(ev){
+                               words_data.index--;
+$('#debug').html("here");
+                            }).addClass('white');
+	                }
+                        else
+                        {
+                           $('#prev').removeClass('white')
+                                     .bind('click',function(){
+                                           return false;
+                                      });
+	                }
 		});
     </script>
     <style type="text/css" media="screen">
