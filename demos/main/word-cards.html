@@ -18,6 +18,15 @@
  	    "index" : 0
  	};
 */
+        function ShowWord(word){
+            $('#cur_pos').html((word.index+1)+"/"+word.all);
+	    $('#q').html(word.data[word.index].en)
+            $('#a').html('tap').removeClass('white')
+                   .bind('click',function(ev){
+                 $('#a').html(word.data[word.index].ja)
+                        .addClass('white');
+            });
+        }
 	function WData(){
 	    this.data = word_cards.gets();
 	    this.all = this.data.length;
@@ -31,7 +40,7 @@
             }
        };
        WData.prototype.hasNext = function(){
-            if(this.index >= this.all){
+            if(this.index >= (this.all-1)){
 　　　　　　　　　return false;
             }else{
                 return true;
@@ -40,61 +49,55 @@
 
 
         $.jQTouch();
-		$(function(){
-			word_cards.init();
-			word_cards.add({"en":"hoge","ja":"ふが"});
-			word_cards.add({"en":"foo","ja":"ばー"});
+	$(function(){
+	    word_cards.init();
+	    word_cards.add({"en":"hoge","ja":"ふが"});
+	    word_cards.add({"en":"foo","ja":"ばー"});
 
- 			var words_data=new WData();
+ 	    var words_data=new WData();
 
-                        $('#cur_pos').html((words_data.index+1)+"/"+words_data.all);
-	                $('#q').html(word_cards.gets()[0].en)
-			$('#a').bind('click',function(ev){
-				$('#a').html(word_cards.gets()[0].ja)
-                                	.addClass('white');
-			});
+	    ShowWord(words_data);
 
-
-	$('.individual').bind('refresh',function(e,arg){
-             if(arg==='next'){
-               // Todo
-	       if((words_data.all-1) > words_data.index )words_data.index++; 
-	     }else if(arg==='prev'){
-               if(0 < words_data.index) words_data.index--;
-	     }
+	    $('.individual').bind('refresh',function(e,arg){
+                 if(arg==='next'){
+                 // Todo
+	         if((words_data.all-1) > words_data.index )words_data.index++; 
+	         }else if(arg==='prev'){
+                     if(0 < words_data.index) words_data.index--;
+	         }
             
-             if(words_data.hasPrev()){
-                $('#debug').html("here");
-                $('#prev').addClass('white');
-                //一個前の単語に変更
-	      }
-              else
-              {
+                 if(words_data.hasPrev()){
+                     $('#debug').html("here");
+                     $('#prev').addClass('white');
+                     //現在の単語に変更
+	             ShowWord(words_data);
+	         }
+                 else
+                 {
                      $('#prev').removeClass('white');
-	      }
+	         }
 
-             if(words_data.hasNext()){
-                $('#debug').html("here");
-                $('#prev').addClass('white');
-                //一個前の単語に変更
-	      }
-              else
-              {
-                     $('#prev').removeClass('white');
-	      }              
+                 if(words_data.hasNext()){
+                     $('#debug').html("there");
+                     $('#next').addClass('white');
+                     //現在の単語に変更
+                     ShowWord(words_data);
+	         }
+                 else
+                 {
+                     $('#next').removeClass('white');
+	         }              
             
-	});
-
+	   });
         
-	$('#prev').click(function(){
-	    $('.individual').trigger('refresh');
+	   $('#prev').click(function(){
+	       $('.individual').trigger('refresh','prev');
+	   });
+	   $('#next').click(function(){
+	       $('.individual').trigger('refresh','next');
+	   });
+           $('.individual').trigger('refresh','prev');
 	});
-	
-
-/* 
-
-*/
-		});
     </script>
     <style type="text/css" media="screen">
         body.fullscreen #home .info {
