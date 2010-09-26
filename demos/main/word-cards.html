@@ -11,18 +11,22 @@
     <script src="../../jqtouch/jqtouch.js" type="application/x-javascript" charset="utf-8"></script>
     <script src="./word-cards/js/word-cards.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" charset="utf-8">
+
         $.jQTouch();
 		$(function(){
-// 			var words-data={
-// 				obj : word_cards.gets(),
-// 				all : obj.length,
-// 				index : 0
-// 			}
-			
 			word_cards.init();
-			word_cards.add({"hoge":"ふが"});
+			word_cards.add({"en":"hoge","ja":"ふが"});
+
+ 			var words_data={
+ 				"data" : word_cards.gets(),
+ 				"all" : word_cards.gets().length,
+ 				"index" : 0
+ 			};
+
+          $('#cur_pos').html((words_data.index+1)+"/"+words_data.all);
+	                $('#q').html(word_cards.gets()[0].en)
 			$('#a').bind('click',function(ev){
-				$('#a').html(word_cards.gets(["hoge"])[0]);
+				$('#a').html(word_cards.gets()[0].ja);
 			});
 		});
     </script>
@@ -62,7 +66,7 @@
 
     <div>
 
-	    <p>1/10</p>
+	    <p id="cur_pos">1/10</p>
         <h2>ul.form</h2>
         <ul>
             <li id="q" class="white"></li>
@@ -70,7 +74,7 @@
         <ul>
             <li id="a">tap</li>
         </ul>
-// 	    <h2 id="debug">test</h2>
+ 	    <h2 id="debug">test</h2>
         <ul class="individual">
             <li><a id="prev">prev</a></li>
             <li><a id="next">next</a></li>

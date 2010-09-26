@@ -25,25 +25,22 @@ var word_cards={
 		var my_obj = JSON.parse(my_words); //[]
 
 		if(obj.ja && obj.en){
-			my_words.push(obj);
+			my_obj.push(obj);
 			localStorage.setItem("myWords",JSON.stringify(my_obj));
 		}
 		return true;
 	},
 
-	gets : function(list){
+	gets : function(){
 		var my_words=localStorage.getItem("myWords");
 		var my_obj = JSON.parse(my_words);
-		var ans = [];
-		for (var k in list){
-			ans.push(my_obj["en"][list[k]]);
-		}
-		return ans;
+
+		return my_obj;
 	},
 
 	clear : function(){
 		try{
-			localStorage.myWords=JSON.stringify({en:{},ja:{}});
+			localStorage.myWords=JSON.stringify([]);
 		}catch(e){
 			return false;
 		}

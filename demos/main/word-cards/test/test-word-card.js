@@ -22,7 +22,8 @@ test("init_methods_test",function(){
 	ok(!localStorage.myWords);
 	word_cards.init();
 	//initする前は、myWordsは空で存在
-	same(localStorage.myWords,JSON.stringify({en:{},ja:{}}),"initする前は、myWordsは空で存在");
+	same(localStorage.myWords,JSON.stringify([]),"initする前は、myWordsは空で存在");
+	//same(localStorage.myWords,JSON.stringify({en:{},ja:{}}),"initする前は、myWordsは空で存在");
 });
 
 module("localStorage setup for drop");
@@ -42,7 +43,7 @@ module("localStorage setup for add", {
 });
 
 test("add_methods_test",function(){
-	ok(word_cards.add({"apple":"りんご"}));
+	ok(word_cards.add({"en":"apple","ja":"りんご"}));
 	var my_words=localStorage.getItem("myWords");
 	var my_obj = JSON.parse(my_words);
 	same(my_obj[0].en,"apple");
@@ -52,11 +53,9 @@ test("add_methods_test",function(){
 module("localStorage setup for get", {
     setup: function() {
 		word_cards.init();
-		word_cards.add({
-			"apple" : "リンゴ",
-			"orange" : "ミカン",
-			"banana" : "ばなな"
-		});
+		word_cards.add({"en":"apple","ja" : "リンゴ"});
+		word_cards.add({"en":"orange" ,"ja" : "ミカン"});
+		word_cards.add({"en":"banana","ja" : "ばなな"});
     },
     teardown: function() {
 		word_cards.drop();
@@ -64,18 +63,20 @@ module("localStorage setup for get", {
 });
 
 test("gets_methods_test",function(){
-	same(word_cards.gets(["apple"]),["リンゴ"]);
-	same(word_cards.gets(["apple","banana"]),["リンゴ","ばなな"]);
+	same(word_cards.gets().length,3);
+	same(word_cards.gets(),[
+	    {"en":"apple","ja" : "リンゴ"},
+	    {"en":"orange" ,"ja" : "ミカン"},
+	    {"en":"banana","ja" : "ばなな"}
+			       ]);
 });
 
 module("localStorage setup for clear", {
     setup: function() {
 		word_cards.init();
-		word_cards.add({
-			"apple" : "リンゴ",
-			"orange" : "ミカン",
-			"banana" : "ばなな"
-		});
+		word_cards.add({"en":"apple","ja" : "リンゴ"});
+		word_cards.add({"en":"orange" ,"ja" : "ミカン"});
+		word_cards.add({"en":"banana","ja" : "ばなな"});
     },
     teardown: function() {
 		word_cards.drop();
@@ -84,7 +85,7 @@ module("localStorage setup for clear", {
 
 test("gets_methods_test",function(){
 	word_cards.clear();
-	same(localStorage.myWords,JSON.stringify({en:{},ja:{}}));	
+	same(localStorage.myWords,JSON.stringify([]));	
 });
 
 
