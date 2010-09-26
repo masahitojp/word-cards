@@ -11,19 +11,42 @@
     <script src="../../jqtouch/jqtouch.js" type="application/x-javascript" charset="utf-8"></script>
     <script src="./word-cards/js/word-cards.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" charset="utf-8">
+/*
+	var words_data={
+	    "data" : word_cards.gets(),
+            "all" : word_cards.gets().length,
+ 	    "index" : 0
+ 	};
+*/
+	function WData(){
+	    this.data = word_cards.gets();
+	    this.all = this.data.length;
+	    this.index = 0;
+	}
+       WData.prototype.hasPrev = function(){
+            if(this.index <= 0){
+　　　　　　　　　return false;
+            }else{
+                return true;
+            }
+       };
+       WData.prototype.hasNext = function(){
+            if(this.index >= this.all){
+　　　　　　　　　return false;
+            }else{
+                return true;
+            }
+       };      
+
 
         $.jQTouch();
 		$(function(){
 			word_cards.init();
 			word_cards.add({"en":"hoge","ja":"ふが"});
 
- 			var words_data={
- 				"data" : word_cards.gets(),
- 				"all" : word_cards.gets().length,
- 				"index" : 0
- 			};
+ 			var words_data=new WData();
 
-          $('#cur_pos').html((words_data.index+1)+"/"+words_data.all);
+                        $('#cur_pos').html((words_data.index+1)+"/"+words_data.all);
 	                $('#q').html(word_cards.gets()[0].en)
 			$('#a').bind('click',function(ev){
 				$('#a').html(word_cards.gets()[0].ja).addClass('white');
@@ -76,8 +99,8 @@
         </ul>
  	    <h2 id="debug">test</h2>
         <ul class="individual">
-            <li><a id="prev">prev</a></li>
-            <li><a id="next">next</a></li>
+            <li id="prev">prev</li>
+            <li id="next">next</li>
         </ul>
 
     </div>
